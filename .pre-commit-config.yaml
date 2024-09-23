@@ -17,7 +17,7 @@ repos:
     hooks:
       - id: requirements
         name: requirements
-        entry: bash -c 'venv\Scripts\pip3 freeze > requirements.txt; git add requirements.txt'
+        entry: cmd /c "venv\Scripts\pip3 freeze > requirements.txt && git add requirements.txt"
         language: system
         pass_filenames: false
         stages: [commit]

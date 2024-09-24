@@ -4,10 +4,9 @@ from sqlalchemy.orm import sessionmaker
 class DBConnectionHandler:
 
     def __init__(self) -> None:
-        self.__connection_string = '{}://{}:{}@{}:{}/{}'.format(
+        self.__connection_string = '{}://{}:@{}:{}/{}'.format(
             'mysql+pymysql',
             'root',
-            'password',
             'localhost',
             '3306',
             'clean_database'

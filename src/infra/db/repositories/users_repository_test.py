@@ -31,3 +31,21 @@ def test_insert_user() -> None:
 
     connection.execute(text(f'''DELETE FROM users WHERE id = {registry.id}'''))
     connection.commit()
+
+def test_select_user() -> None:
+    mocked_first_name = 'first'
+    mocked_last_name = 'last'
+    mocked_age = 51
+
+    users_repository = UserRepository()
+    users_repository.insert_user(mocked_first_name, mocked_last_name, mocked_age)
+
+    response = users_repository.select_user(mocked_first_name)
+
+    assert len(response) == 1
+    assert response[0].first_name == mocked_first_name
+    assert response[0].last_name == mocked_last_name
+    assert response[0].age == mocked_age
+
+    connection.execute(text(f'''DELETE FROM users WHERE id = {response[0].id}'''))
+    connection.commit()

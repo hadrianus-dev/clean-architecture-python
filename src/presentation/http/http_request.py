@@ -10,7 +10,10 @@ class HttpRequest:
             url: str = None,
             ipv4: str = None
         ):
-        self.headers = headers
+        self.headers = headers if headers is not None else {
+            'Acept': 'application/json',
+            'Content-Type': 'application/json'
+        }
         self.body = body
         self.query_params = query_params
         self.path_params = path_params

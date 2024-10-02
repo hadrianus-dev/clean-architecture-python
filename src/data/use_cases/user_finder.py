@@ -1,7 +1,10 @@
+# pylint: disable=E0401
+# pylint: disable=E0611
 from typing import Dict, List
 from src.domain.models.users import Users
 from src.data.interfaces.users_repository import UserRepositoryInterface
 from src.domain.use_cases.user_finder import UserFinder as UserFinderInterface
+from src.errors.types import HttpNotFoundError, HttpBadRequestError
 
 class UserFinder(UserFinderInterface):
     def __init__(self, users_repository: UserRepositoryInterface) -> None:
@@ -17,14 +20,14 @@ class UserFinder(UserFinderInterface):
     @classmethod
     def __validate_name(cls, first_name: str) -> None:
         if not first_name.isalpha():
-            raise ValueError("The first name must be only letters")
+            raise HttpBadRequestError("The first name must be only letters")
 
         if len(first_name) > 18:
-            raise ValueError("The first name must be less than 18 characters")
+            raise HttpBadRequestError("The first name must be less than 18 characters")
 
     def __search_users(self, first_name: str) -> List[Users]:
         users = self.__users_repository.select_user(first_name)
-        if not users: raise Exception("User not found") # pylint: disable=W0719
+        if not users: raise HttpNotFoundError("User not found")
         return users
 
 

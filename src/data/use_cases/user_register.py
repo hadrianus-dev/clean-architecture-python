@@ -3,6 +3,7 @@
 from typing import Dict
 from src.data.interfaces.users_repository import UserRepositoryInterface
 from src.domain.use_cases.user_register import UserRegister as UserRegisterInterface
+from src.errors.types import HttpBadRequestError
 
 class UserRegister(UserRegisterInterface):
     def __init__(self, users_repository: UserRepositoryInterface) -> None:
@@ -22,10 +23,10 @@ class UserRegister(UserRegisterInterface):
     @classmethod
     def __validate_name(cls, name: str) -> None:
         if not name.isalpha():
-            raise ValueError("The first name must be only letters")
+            raise HttpBadRequestError("The first name must be only letters")
 
         if len(name) > 18:
-            raise ValueError("The first name must be less than 18 characters")
+            raise HttpBadRequestError("The first name must be less than 18 characters")
 
     @classmethod
     def __format_response(cls, fist_name: str, last_name: str, age: int) -> Dict:
